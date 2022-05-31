@@ -11,7 +11,7 @@
 #define MAX_TROPO 20000
 #define MAX_ALT 25000
 #define TROPO_TEMP -56.5
-#define EROR  -0
+#define ERROR  -99999
 #define FTTOMET 0.3048
 #define M_COEFF 0.0065
 #define FT_COEFF 0.0019812
@@ -26,15 +26,31 @@ float calc_temp(double gnd_temp,double alt_m, units_type units)
 {
 
     double temp;
-    float coeff = ((units == ft) ? (FT_COEFF) : (M_COEFF));
+    float coeff;   // = ((units == ft) ? (FT_COEFF) : (M_COEFF));
+    float height_conv; 
+
+    if(units == ft)
+    {
+        coeff = FT_COEFF;
+        height_conv = FTTOMET;
+    }
+    else
+    {
+        coeff = M_COEFF;
+        height_conv = 1;
+    }
+
 
     //////// 0 < h < 10 972.8
+    alt_m *= height_conv; 
+
     if((MIN_ALT <= alt_m) && (alt_m < TROPO_ALT))
-        temp = gnd_temp - coeff*alt_m ;
+        temp = gnd_temp - coeff * alt_m ;
 
     else if (alt_m < MAX_ALT)
         temp = TROPO_TEMP;
-    else temp = EROR;
+
+    else temp = ERROR;
           
     return temp;
 }
