@@ -16,12 +16,17 @@
 #define M_COEFF 0.0065
 #define FT_COEFF 0.0019812
 
+enum units_type
+{
+    m = 0,
+    ft = 1 
+};
 
-float calc_temp(double gnd_temp,double alt_m, bool units)
+float calc_temp(double gnd_temp,double alt_m, units_type units)
 {
 
     double temp;
-    float coeff = ((units == 0) ? (M_COEFF) : (FT_COEFF));
+    float coeff = ((units == ft) ? (FT_COEFF) : (M_COEFF));
 
     //////// 0 < h < 10 972.8
     if((MIN_ALT <= alt_m) && (alt_m < TROPO_ALT))
@@ -48,7 +53,7 @@ void calcISA()
     double alt_d;
     double res;
 
-    int unit_type = 0;
+    units_type units;
     int idx = 0;
     int fileNumber = 0;
 
@@ -86,20 +91,27 @@ void calcISA()
                 if ((strstr(alt, "Alt[m]") != NULL) || (strstr(alt, "Alt[c]") != NULL))
                 {
                     printf("Alt data is in [m]: \n");
-                    unit_type = 0;
+                    units = m;
                 }
                 else if (strstr(alt, "Alt[ft]") != NULL)
                 {
                     printf("Alt data is in [ft]: \n");
-                    unit_type = 1;
+                    units = ft;
                 }
             }
             else
             {
                 GND_temp_d = atof(temp);
                 alt_d = (atof(alt));
-                res = calc_temp(GND_temp_d, alt_d, unit_type);
-                printf("idx = %d unit =%d ----> temp = %f(C), Alt =%f(m) restemp = %f(C) \n", idx, unit_type, GND_temp_d, alt_d, res);
+                res = calc_temp(GND_temp_d, alt_d, units);
+                if (units == m)
+                {
+                    printf("temp = %f[c], Alt =%f[m] restemp = %f(c) \n", GND_temp_d, alt_d, res);
+                }
+                else if (units == ft)
+                {
+                    printf("temp = %f[c], Alt =%f[ft] restemp = %f[c] \n", GND_temp_d, alt_d, res);
+                }
             }
             idx++;
         }

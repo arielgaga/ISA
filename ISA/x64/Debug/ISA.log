@@ -1,4 +1,4 @@
 ﻿  ISA.cpp
-C:\Users\galar.DESKTOP-8UDQI7M\Desktop\קרן\ISA\ISA\ISA.cpp(24,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\galar.DESKTOP-8UDQI7M\Desktop\קרן\ISA\ISA\ISA.cpp(34,12): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  ISA.vcxproj -> C:\Users\galar.DESKTOP-8UDQI7M\Desktop\קרן\ISA\x64\Debug\ISA.exe
+C:\Users\galar.DESKTOP-8UDQI7M\Desktop\Keren\ISA\ISA\ISA.cpp(29,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\galar.DESKTOP-8UDQI7M\Desktop\Keren\ISA\ISA\ISA.cpp(39,12): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  ISA.vcxproj -> C:\Users\galar.DESKTOP-8UDQI7M\Desktop\Keren\ISA\x64\Debug\ISA.exe
