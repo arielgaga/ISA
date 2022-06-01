@@ -13,8 +13,7 @@
 #define TROPO_TEMP -56.5
 #define ERROR  -99999
 #define FTTOMET 0.3048
-#define M_COEFF 0.0065
-#define FT_COEFF 0.0019812
+#define SLOPE_M 0.0065
 
 enum units_type
 {
@@ -26,26 +25,12 @@ float calc_temp(double gnd_temp,double alt_m, units_type units)
 {
 
     double temp;
-    float coeff;   // = ((units == ft) ? (FT_COEFF) : (M_COEFF));
-    float height_conv; 
+    float coeff = ((units == ft) ? (FTTOMET) : (1));
+    alt_m *= coeff;
 
-    if(units == ft)
-    {
-        coeff = FT_COEFF;
-        height_conv = FTTOMET;
-    }
-    else
-    {
-        coeff = M_COEFF;
-        height_conv = 1;
-    }
-
-
-    //////// 0 < h < 10 972.8
-    alt_m *= height_conv; 
 
     if((MIN_ALT <= alt_m) && (alt_m < TROPO_ALT))
-        temp = gnd_temp - coeff * alt_m ;
+        temp = gnd_temp - SLOPE_M * alt_m ;
 
     else if (alt_m < MAX_ALT)
         temp = TROPO_TEMP;
