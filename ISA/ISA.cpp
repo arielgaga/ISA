@@ -21,23 +21,23 @@ enum units_type
     ft = 1 
 };
 
-float calc_temp(double gnd_temp,double alt_m, units_type units)
+void calc_temp(double gnd_temp, double alt, units_type units)
 {
-
-    double temp;
+    double res;
     float coeff = ((units == ft) ? (FTTOMET) : (1));
-    alt_m *= coeff;
-
-
+    double alt_m = alt * coeff;
+    /*calc the temp differently according to hight*/
     if((MIN_ALT <= alt_m) && (alt_m < TROPO_ALT))
-        temp = gnd_temp - SLOPE_M * alt_m ;
-
+        res = gnd_temp - SLOPE_M * alt_m ;
     else if (alt_m < MAX_ALT)
-        temp = TROPO_TEMP;
+        res = TROPO_TEMP;
+    else res = ERROR;
 
-    else temp = ERROR;
+    if (units == m)
+        printf("ground temp = %f[c], Alt =%f[m] restemp = %f(c) \n", gnd_temp, alt, res);
+    else if (units == ft)
+        printf("ground temp = %f[c], Alt =%f[ft] restemp = %f[c] \n", gnd_temp, alt, res);
           
-    return temp;
 }
 
 
@@ -49,11 +49,9 @@ void calcISA()
     char line[256];
     char* temp;
     char* alt;
-
     double GND_temp_d;
     double alt_d;
     double res;
-
     units_type units;
     int idx = 0;
     int fileNumber = 0;
@@ -80,13 +78,13 @@ void calcISA()
         err = fopen_s(&file, filename, "r");
         printf("reading filename %s\n", filename);
 
-        while (fgets(line, sizeof(line), file))
+        /*iterates on the file lines*/
+        while(fgets(line, sizeof(line), file))
         {
-            /* note that fgets don't strip the terminating \n, checking its
-               presence would allow to handle lines longer that sizeof(line) */
+            /*splits temp and alt strings on each line*/
             temp = strtok_s(line, ",", &alt);
 
-            /*skip first line*/
+            /*read first line if idx == 0 in order to get the file units */
             if (idx == 0)
             {
                 if ((strstr(alt, "Alt[m]") != NULL) || (strstr(alt, "Alt[c]") != NULL))
@@ -100,19 +98,12 @@ void calcISA()
                     units = ft;
                 }
             }
+            /*read the raw data*/
             else
             {
-                GND_temp_d = atof(temp);
+                GND_temp_d = atof(temp); //cast string to double
                 alt_d = (atof(alt));
-                res = calc_temp(GND_temp_d, alt_d, units);
-                if (units == m)
-                {
-                    printf("temp = %f[c], Alt =%f[m] restemp = %f(c) \n", GND_temp_d, alt_d, res);
-                }
-                else if (units == ft)
-                {
-                    printf("temp = %f[c], Alt =%f[ft] restemp = %f[c] \n", GND_temp_d, alt_d, res);
-                }
+                calc_temp(GND_temp_d, alt_d, units);
             }
             idx++;
         }

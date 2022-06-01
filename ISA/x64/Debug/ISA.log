@@ -1,6 +1,4 @@
 ﻿  ISA.cpp
 C:\Users\galar.DESKTOP-8UDQI7M\Desktop\Keren\ISA\ISA\ISA.cpp(28,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\galar.DESKTOP-8UDQI7M\Desktop\Keren\ISA\ISA\ISA.cpp(40,12): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-C:\Users\galar.DESKTOP-8UDQI7M\Desktop\Keren\ISA\ISA\ISA.cpp(98,24): warning C4477: 'printf' : format string '%s' requires an argument of type 'char *', but variadic argument 1 has type 'int'
-C:\Users\galar.DESKTOP-8UDQI7M\Desktop\Keren\ISA\ISA\ISA.cpp(98,24): warning C4313: 'printf': '%s' in format string conflicts with argument 1 of type 'int'
+C:\Users\galar.DESKTOP-8UDQI7M\Desktop\Keren\ISA\ISA\ISA.cpp(60,12): warning C4101: 'res': unreferenced local variable
   ISA.vcxproj -> C:\Users\galar.DESKTOP-8UDQI7M\Desktop\Keren\ISA\x64\Debug\ISA.exe
